@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maze Escape</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="fog"></div>
+  <div class="noise"></div>
+
+  <main class="app">
+    <!-- INÍCIO -->
+    <section class="screen active" id="startScreen">
+      <div class="panel glass fade-up">
+        <p class="eyebrow">ARQUIVO DE SOBREVIVÊNCIA</p>
+        <h1>Maze Escape</h1>
+        <p class="subtitle">
+          Você está presa em um labirinto. Um monstro está logo atrás.
+          Responda corretamente para avançar e alcançar a saída antes que ele te encontre.
+        </p>
+
+        <div class="intro-grid">
+          <div class="mini-card">
+            <span>Objetivo</span>
+            <strong>Escapar do labirinto</strong>
+          </div>
+          <div class="mini-card">
+            <span>Risco</span>
+            <strong>O monstro avança</strong>
+          </div>
+          <div class="mini-card">
+            <span>Vitória</span>
+            <strong>Responder e sobreviver</strong>
+          </div>
+        </div>
+
+        <div class="form-area">
+          <label for="playerName">Digite seu nome para entrar no ranking</label>
+          <input
+            type="text"
+            id="playerName"
+            placeholder="Seu nome"
+            maxlength="18"
+            autocomplete="off"
+          />
+          <button id="startBtn" class="primary-btn">Entrar no labirinto</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- JOGO -->
+    <section class="screen" id="gameScreen">
+      <div class="game-layout">
+        <aside class="side-panel glass fade-up">
+          <h2>Status</h2>
+
+          <div class="status-box">
+            <span>Jogador</span>
+            <strong id="playerDisplay">-</strong>
+          </div>
+
+          <div class="status-box">
+            <span>Tempo</span>
+            <strong id="timer">00:00</strong>
+          </div>
+
+          <div class="status-box">
+            <span>Pergunta</span>
+            <strong id="questionCounter">1 / 8</strong>
+          </div>
+
+          <div class="status-box reward-box">
+            <span>Recompensa</span>
+            <strong id="rewardText">Nenhuma ainda</strong>
+          </div>
+
+          <div class="hint-panel">
+            <button id="hintBtn" class="ghost-btn">Usar pista</button>
+            <p id="hintText" class="hint-text hidden"></p>
+          </div>
+        </aside>
+
+        <div class="main-panel">
+          <div class="top-track glass fade-up">
+            <div class="track-header">
+              <span>Progresso no labirinto</span>
+              <span id="progressText">12%</span>
+            </div>
+
+            <div class="progress-bar">
+              <div id="progressFill"></div>
+            </div>
+
+            <div class="maze-track">
+              <div class="monster-icon" id="monsterMarker">☠</div>
+              <div class="player-icon" id="playerMarker">✦</div>
+              <div class="exit-icon">⛩</div>
+            </div>
+
+            <div class="track-legend">
+              <span>Monstro</span>
+              <span>Você</span>
+              <span>Saída</span>
+            </div>
+          </div>
+
+          <div class="question-panel glass fade-up" id="questionCard">
+            <p class="room-tag" id="roomTag">Sala 1</p>
+            <h2 id="questionTitle">Charada</h2>
+            <p class="question-text" id="questionText"></p>
+
+            <input
+              type="text"
+              id="answerInput"
+              placeholder="Digite sua resposta..."
+              autocomplete="off"
+            />
+
+            <div class="action-row">
+              <button id="submitBtn" class="primary-btn">Responder</button>
+              <button id="restartBtn" class="ghost-btn">Reiniciar</button>
+            </div>
+
+            <div class="feedback-wrap">
+              <p id="feedback" class="feedback"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VITÓRIA -->
+    <section class="screen" id="winScreen">
+      <div class="panel glass fade-up result-panel">
+        <p class="eyebrow success">SAÍDA ALCANÇADA</p>
+        <h1>Você escapou.</h1>
+        <p class="subtitle">
+          O labirinto ficou para trás. Você foi mais rápida que o monstro.
+        </p>
+
+        <div class="results-grid">
+          <div class="mini-card">
+            <span>Jogador</span>
+            <strong id="finalPlayer">-</strong>
+          </div>
+          <div class="mini-card">
+            <span>Tempo final</span>
+            <strong id="finalTime">00:00</strong>
+          </div>
+          <div class="mini-card">
+            <span>Acertos</span>
+            <strong id="finalScore">0</strong>
+          </div>
+        </div>
+
+        <button id="playAgainBtn" class="primary-btn">Jogar novamente</button>
+      </div>
+    </section>
+
+    <!-- DERROTA -->
+    <section class="screen" id="loseScreen">
+      <div class="panel glass fade-up result-panel">
+        <p class="eyebrow danger">CAPTURADA</p>
+        <h1>O monstro te alcançou.</h1>
+        <p class="subtitle">
+          Você ficou presa no labirinto. Tente novamente e responda com mais rapidez.
+        </p>
+
+        <div class="results-grid">
+          <div class="mini-card">
+            <span>Jogador</span>
+            <strong id="losePlayer">-</strong>
+          </div>
+          <div class="mini-card">
+            <span>Tempo</span>
+            <strong id="loseTime">00:00</strong>
+          </div>
+          <div class="mini-card">
+            <span>Acertos</span>
+            <strong id="loseScore">0</strong>
+          </div>
+        </div>
+
+        <button id="tryAgainBtn" class="primary-btn">Tentar novamente</button>
+      </div>
+    </section>
+
+    <!-- RANKING -->
+    <section class="screen" id="rankingScreen">
+      <div class="panel glass fade-up ranking-panel">
+        <div class="ranking-head">
+          <div>
+            <p class="eyebrow">RANKING</p>
+            <h1>Melhores fugas</h1>
+          </div>
+          <button id="backToStartBtn" class="ghost-btn">Voltar ao início</button>
+        </div>
+
+        <div id="rankingList" class="ranking-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <button id="openRankingBtn" class="floating-btn">Ranking</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
